@@ -30,6 +30,7 @@ class QuestionNavigation
 
     # Spouse authentication
     Questions::SpouseIdentityController,
+    Questions::SpouseConsentController,
     Questions::WelcomeSpouseController,
 
     # Spouse personal information

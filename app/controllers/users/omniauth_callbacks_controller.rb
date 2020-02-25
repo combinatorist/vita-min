@@ -7,11 +7,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     is_new_user = !@user.persisted?
     is_consenting_user = @user.consented_to_service_yes?
     is_returning_user = !is_new_user
+    is_returning_spouse = @user.is_spouse && is_returning_user
 
     is_new_primary_user = !has_spouse_param && is_new_user
     is_new_spouse = has_spouse_param && is_new_user
-    is_returning_consenting_user = is_returning_user && is_consenting_user
-    is_returning_nonconsenting_user = is_returning_user && !is_consenting_user
+    is_returning_consenting_primary_user = is_returning_user && is_consenting_user && !is_returning_spouse
+    is_returning_nonconsenting_primary_user = is_returning_user && !is_consenting_user && !is_returning_spouse
+    is_returning_consenting_spouse = is_returning_spouse && is_consenting_user
+    is_returning_nonconsenting_spouse = is_returning_spouse && !is_consenting_user
     is_primary_but_expected_spouse = (@user == current_user && has_spouse_param)
 
     if is_primary_but_expected_spouse
@@ -22,15 +25,25 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user.is_spouse = true
       @user.intake = current_user.intake
       @user.save
-      return redirect_to welcome_spouse_questions_path
+      return redirect_to spouse_consent_questions_path
     end
 
-    if is_returning_consenting_user
+    if is_returning_consenting_primary_user
       sign_in @user, event: :authentication
       return redirect_to welcome_questions_path
     end
 
-    if is_returning_nonconsenting_user
+    if is_returning_consenting_spouse
+      sign_in @user, event: :authentication
+      return redirect_to welcome_spouse_questions_path
+    end
+
+    if is_returning_nonconsenting_spouse
+      sign_in @user, event: :authentication
+      return redirect_to spouse_consent_questions_path
+    end
+
+    if is_returning_nonconsenting_primary_user
       sign_in @user, event: :authentication
     elsif is_new_primary_user
       @user.intake = Intake.create(source: source, referrer: referrer)
