@@ -8,7 +8,13 @@ RSpec.feature "Returning user to online intake" do
     )
     visit "/questions/identity"
     click_on "Sign in with ID.me"
-    check "I agree"
+
+    expect(page).to have_selector("h1", text: "Great! Here's the legal stuff...")
+    fill_in "Legal full name", with: "Gary Gnome"
+    fill_in "Last 4 of SSN/ITIN", with: "1234"
+    select "March", from: "Month"
+    select "5", from: "Day"
+    select "1971", from: "Year"
     click_on "Continue"
 
     OmniAuth.config.mock_auth[:idme] = :invalid_credentials

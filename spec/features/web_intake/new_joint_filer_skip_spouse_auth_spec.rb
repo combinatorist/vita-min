@@ -11,8 +11,11 @@ RSpec.feature "Web Intake Joint Filer without spouse present" do
 
     # Consent form
     expect(page).to have_selector("h1", text: "Great! Here's the legal stuff...")
-    expect(page).to have_text("You, Gary Gnome, understand")
-    check "I agree"
+    fill_in "Legal full name", with: "Gary Gnome"
+    fill_in "Last 4 of SSN/ITIN", with: "1234"
+    select "March", from: "Month"
+    select "5", from: "Day"
+    select "1971", from: "Year"
     click_on "Continue"
 
     # Marital status
@@ -93,8 +96,12 @@ RSpec.feature "Web Intake Joint Filer without spouse present" do
       click_on "Sign in with ID.me"
       expect(page).to have_selector("h1", text: "Great! Here's the legal stuff...")
       expect(User.last.is_spouse).to eq true
-      expect(page).to have_text("You, Greta Gnome, understand")
-      check "I agree"
+      expect(page).to have_text("You understand")
+      fill_in "Legal full name", with: "Günther Gnome"
+      fill_in "Last 4 of SSN/ITIN", with: "2345"
+      select "March", from: "Month"
+      select "5", from: "Day"
+      select "1971", from: "Year"
       click_on "Continue"
       expect(page).to have_selector("h1", text: "You did it!")
     end
