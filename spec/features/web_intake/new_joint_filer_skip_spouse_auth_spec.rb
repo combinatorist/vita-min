@@ -16,7 +16,7 @@ RSpec.feature "Web Intake Joint Filer without spouse present" do
     select "March", from: "Month"
     select "5", from: "Day"
     select "1971", from: "Year"
-    click_on "Continue"
+    click_on "I agree"
 
     # Marital status
     visit ever_married_questions_path
@@ -102,7 +102,7 @@ RSpec.feature "Web Intake Joint Filer without spouse present" do
       select "March", from: "Month"
       select "5", from: "Day"
       select "1971", from: "Year"
-      click_on "Continue"
+      click_on "I agree"
       expect(page).to have_selector("h1", text: "You did it!")
     end
   end

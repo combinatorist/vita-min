@@ -12,9 +12,6 @@ class ConsentForm < QuestionsForm
     :primary_last_four_ssn
   )
 
-  validates_presence_of :birth_date_year, message: "Please enter a year."
-  validates_presence_of :birth_date_month, message: "Please enter a month."
-  validates_presence_of :birth_date_day, message: "Please enter a day."
   validates_presence_of :primary_full_legal_name, message: "Please enter your name."
   validates_length_of :primary_last_four_ssn, maximum: 4, minimum: 4, message: "Please enter the last four digits of your SSN or ITIN."
   validate :valid_birth_date

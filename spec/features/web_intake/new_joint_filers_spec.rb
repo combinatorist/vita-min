@@ -101,7 +101,7 @@ RSpec.feature "Web Intake Joint Filers" do
     select "March", from: "Month"
     select "5", from: "Day"
     select "1971", from: "Year"
-    click_on "Continue"
+    click_on "I agree"
 
     # Contact information
     expect(page).to have_text("What is your mailing address?")
@@ -169,7 +169,7 @@ RSpec.feature "Web Intake Joint Filers" do
     select "March", from: "Month"
     select "5", from: "Day"
     select "1971", from: "Year"
-    click_on "Continue"
+    click_on "I agree"
 
     # Spouse personal information
     expect(page).to have_selector("h1", text: "Was your spouse a full-time student in 2019?")

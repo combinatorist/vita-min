@@ -44,7 +44,7 @@ RSpec.describe SpouseConsentForm do
         )
 
         expect(form).not_to be_valid
-        expect(form.errors[:birth_date_month]).to be_present
+        expect(form.errors[:birth_date]).to be_present
         expect(form.errors[:spouse_full_legal_name]).to be_present
         expect(form.errors[:spouse_last_four_ssn]).to be_present
       end

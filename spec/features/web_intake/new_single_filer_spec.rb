@@ -70,7 +70,7 @@ RSpec.feature "Web Intake Single Filer" do
     select "March", from: "Month"
     select "5", from: "Day"
     select "1971", from: "Year"
-    click_on "Continue"
+    click_on "I agree"
 
     # Contact information
     expect(page).to have_text("What is your mailing address?")
